@@ -81,7 +81,7 @@ console.log(phone); */
 useEffect(()=>{
 getData();
 
- axios.get('http://'+ip+':5000/Mosques')
+ axios.get(apiLink+'/Mosques')
 .then(response => {
   setItems(response.data);
   console.log(response.data);
