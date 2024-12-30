@@ -6,7 +6,7 @@ import RegisterForm from './RegisterForm';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //import axios from 'axios';
-import axios,{ip} from './axiosConfig';
+import axios,{apiLink, ip} from './axiosConfig';
 // You can import supported modules from npm
 
 const MyComponent = () => {
@@ -84,7 +84,7 @@ setUserData(user);
 //console.log("the data is "+user.toString());
 
 
-axios.get(`http://`+ip+`:5000/Mosques/${email}`)
+axios.get(apiLink+`/Mosques/${email}`)
 .then(response => {
   setItems(response.data);
   console.log(response.data);
@@ -128,7 +128,7 @@ const handlePicker=async(itemValue)=>{
 
    const selection=itemValue;
    const email=email;
-   axios.get('http://'+ip+':5000/selectedMosque',{
+   axios.get(apiLink+'/selectedMosque',{
      params: { selection }})
    .then(response => {
      settimings(response.data);

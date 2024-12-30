@@ -8,7 +8,7 @@ import RegisterForm from './RegisterForm';
 import { useNavigation } from '@react-navigation/native';
 import { ActivityIndicator } from 'react-native';
 //import axios from 'axios';
-import axios,{ip} from './axiosConfig';
+import axios,{apiLink, ip} from './axiosConfig';
 // You can import supported modules from npm
 
 const wid=Dimensions.get('screen').width;
@@ -95,7 +95,7 @@ getData();
 const fetchData=async(itemValue)=>{
   const selection=itemValue;
   const email=email;
-  axios.get('http://'+ip+':5000/selectedMosque',{
+  axios.get(apiLink+'/selectedMosque',{
     params: { selection }})
   .then(response => {
     settimings(response.data);

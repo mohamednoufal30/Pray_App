@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from "react";
 import {FlatList,View,Text,StyleSheet,ScrollView,SafeAreaView,TouchableOpacity, Alert, Button} from 'react-native';
 //import axios from 'axios';
-import axios,{ip} from './axiosConfig';
+import axios,{apiLink, ip} from './axiosConfig';
 
 /* const DATA = [
     {
@@ -114,7 +114,8 @@ export default function Admins(){
   }, []);
 
    const fetchItems = async () => {
-    await axios.get('http://'+ip+':5000/Admins')
+    // await axios.get('http://'+ip+':5000/Admins')
+    await axios.get(apiLink+'/Admins')
     .then(response => {
       setData(response.data);
       console.log(response.data);
@@ -129,7 +130,7 @@ export default function Admins(){
     try{
       console.log(id);
       
-       const response = await axios.delete(`http://`+ip+`:5000/Admins/${id}`);
+       const response = await axios.delete(apiLink+`/Admins/${id}`);
 
       if(response.status===200){
         Alert.alert('Success', 'Item deleted successfully');

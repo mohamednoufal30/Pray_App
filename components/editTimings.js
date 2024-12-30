@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 //import axios from 'axios';
 import { Alert } from 'react-native';
 // import DateTimePicker from 'react-native-modal-datetime-picker';
-import axios,{ip} from './axiosConfig';
+import axios,{apiLink, ip} from './axiosConfig';
 
 
 
@@ -93,7 +93,7 @@ const navigation=useNavigation();
        mosqueName,location,email,userType,fajrTime,fajrIkaamat,zuhrTime,zuhrIkaamat,asrTime,asrIkaamat,magribTime,magribIkaamat,
        ishaTime,ishaIkaamat,jummaTime,jummahikaamat
       };
-      axios.post('http://'+ip+':5000/mosqueRegister',mosqueData,email,userType)
+      axios.post(apiLink+'/mosqueRegister',mosqueData,email,userType)
     .then(res=>{
       console.log(res.data);
     if(res.data.status=="ok"){

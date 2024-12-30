@@ -6,7 +6,7 @@ import React,{useEffect,useState} from 'react';
 import { Card ,RadioButton} from 'react-native-paper';
 import Clock from '../components/clock';
 //import axios from 'axios';
-import axios,{ip} from './axiosConfig';
+import axios,{apiLink, ip} from './axiosConfig';
 
 const width=Dimensions.get('window').width;
 const height=  Dimensions.get('window').height;
@@ -58,7 +58,7 @@ const navigation=useNavigation();
     };
 
  
-    axios.post('http://'+ip+':5000/usersRegister',usersData)
+    axios.post(apiLink+'/usersRegister',usersData)
     .then(res=>{
       console.log(res.data)
     if(res.data.status=="ok"){

@@ -7,7 +7,7 @@ import Clock from '../components/clock';
 //import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios,{ip} from './axiosConfig';
+import axios,{apiLink, ip} from './axiosConfig';
 
 
 export default function EditTimings({route}) {
@@ -83,7 +83,7 @@ export default function EditTimings({route}) {
    const updatedData={ fajrSalah,zuhrSalah,asrSalah,maghribSalah,ishaSalah,jummahSalah,fajrIkaamat,zuhrIkaamat,asrIkaamat,maghribIkaamat,ishaIkaamat,jummahikaamat }; 
    //console.log(updatedData);
        try{
-     const response=await axios.put(`http://`+ip+`:5000/Mosques/${id}`,{updatedData});
+     const response=await axios.put(apiLink+`/Mosques/${id}`,{updatedData});
      if(response.status===200){
        navigation.navigate('home');
        Alert.alert("Data updated");

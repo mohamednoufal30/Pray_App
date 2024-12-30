@@ -2,7 +2,7 @@ import React, { useTransition,useState,useEffect } from "react";
 import {FlatList,View,Text,StyleSheet,ScrollView,SafeAreaView,TouchableOpacity} from 'react-native';
 //import axios from "axios";
 import { Alert } from "react-native";
-import axios,{ip} from './axiosConfig';
+import axios,{apiLink, ip} from './axiosConfig';
 
 
 
@@ -13,7 +13,7 @@ export default function Users(){
   const [data, setData] = useState([{}]);
 
   useEffect(() => {
-    axios.get('http://'+ip+':5000/Users')
+    axios.get(apiLink+'/Users')
       .then(response => {
         setData(response.data);
         console.log(response.data);
@@ -29,7 +29,7 @@ export default function Users(){
     try{
       console.log(id);
       
-       const response = await axios.delete(`http://`+ip+`:5000/Users/${id}`);
+       const response = await axios.delete(apiLink+`/Users/${id}`);
 
       if(response.status===200){
         Alert.alert('Success', 'Item deleted successfully');

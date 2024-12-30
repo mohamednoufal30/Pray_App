@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from "react";
 import {FlatList,View,Text,StyleSheet,ScrollView,SafeAreaView} from 'react-native';
 //import axios from "axios";
-import axios,{ip} from './axiosConfig';
+import axios,{apiLink, ip} from './axiosConfig';
 
 
  
@@ -18,7 +18,8 @@ export default function Mosques(){
   const [data, setData] = useState([{}]);
 
   useEffect(() => {
-    axios.get('http://'+ip+':5000/Mosques')
+    // axios.get('http://'+ip+':5000/Mosques')
+    axios.get(apiLink+'/Mosques')
       .then(response => {
         setData(response.data);
         console.log(response.data);

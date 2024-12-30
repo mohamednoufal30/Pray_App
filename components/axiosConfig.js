@@ -3,6 +3,7 @@ import axios from "axios";
 // import { NetworkInfo } from 'react-native-network-info';
 
 export const ip='192.168.92.83';
+export const apiLink='https://pray-app-backend.onrender.com';
 
 // const localhost=Platform.OS==='android' ? 'http://192.168.97.83:8085' : 'http://localhost:8085';
 

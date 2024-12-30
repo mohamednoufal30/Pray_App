@@ -13,7 +13,7 @@ import Clock from '../components/clock';
 // import AdminsForm from '../components/adminsForm';
 // import NavigationContainer from '@react-navigation/native';
 //import axios from 'axios';
-import axios,{ip,api} from './axiosConfig';
+import axios,{ip,apiLink} from './axiosConfig';
 // import * as Network from "expo-network";
 // import { useFonts } from 'expo-font';
 
@@ -103,7 +103,8 @@ export default function Form() {
     
     };
    
-    axios.post('http://'+ip+':5000/login-user',userData)
+    // axios.post('http://'+ip+':5000/login-user',userData)
+    axios.post(apiLink+'/login-user',userData)
     .then(res=>{
        const {token,user}=res.data;
        //console.log(token);

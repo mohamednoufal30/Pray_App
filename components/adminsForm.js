@@ -5,7 +5,7 @@ import React,{useEffect,useState} from 'react';
 // import { Card } from 'react-native-paper';
 import Clock from '../components/clock';
 //import axios from 'axios';
-import axios,{ip} from './axiosConfig';
+import axios,{apiLink, ip} from './axiosConfig';
 
 
 
@@ -40,7 +40,7 @@ export default function AdminsForm() {
      const adminData={
       adminName,adminMosque,adminEmail,adminPhone,adminPassword
     };
-    axios.post('http://'+ip+':5000/adminRegister',adminData)
+    axios.post(apiLink+'/adminRegister',adminData)
     .then(res=>{
       console.log(res.data)
     if(res.data.status=="ok"){
