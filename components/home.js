@@ -78,7 +78,7 @@ useEffect(()=>{
     
     <ScrollView>
 
-       <Header/>
+       {/* <Header/> */}
  
        <Vagi/> 
 

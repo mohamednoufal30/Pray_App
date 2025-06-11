@@ -1,14 +1,15 @@
-import { TouchableOpacity,Text, SafeAreaView, StyleSheet,View,TextInput,Button,ScrollView,TouchableWithoutFeedback,Platform,Keyboard, Alert } from 'react-native';
+import { TouchableOpacity,Text, SafeAreaView, StyleSheet,View,Button,ScrollView,TouchableWithoutFeedback,PermissionsAndroid,Platform,Keyboard, Alert, Image } from 'react-native';
 import { Link } from '@react-navigation/native'; 
 import React,{useEffect,useState} from 'react';
+import { TextInput } from 'react-native-paper';
 // You can import supported modules from npm
 import { Card } from 'react-native-paper';
 import Clock from '../components/clock';
-//import axios from 'axios';
+import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios,{apiLink, ip} from './axiosConfig';
-
+import {apiLink, ip} from './axiosConfig';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 export default function EditTimings({route}) {
 
@@ -22,6 +23,8 @@ export default function EditTimings({route}) {
     const [id, setid] = useState(timings._id);
     const[mosquename,setMosquename]=useState(timings.mosqueName);
     const [email, setEmail] = useState(timings.Email);
+    const [userPhone, setUserPhone] = useState(AsyncStorage.getItem('phone'));
+    const [userType, setUserType] = useState(timings.userType);
    
     const [fajrSalah, setfajrTime] = useState(timings.fajrSalah);
     const [zuhrSalah, setzuhrTime] = useState(timings.zuhrSalah);
@@ -36,11 +39,26 @@ export default function EditTimings({route}) {
     const [ishaIkaamat, setisha] = useState(timings.ishaIkaamat);
     const [jummahikaamat, setjummah] = useState(timings.jummahikaamat);
     
+  const [selectedImage, setSelectedImage] = useState(timings.image);
 
+
+// colon after two digit
+ const formatTime = (text) => {
+  const cleaned = text.replace(/[^0-9]/g, '');
+
+  if (cleaned.length >= 3) {
+    return cleaned.slice(0, 2) + ':' + cleaned.slice(2, 4);
+  }
+
+  return cleaned;
+};
 
    async function getData(){
       console.log(mosquename);
       console.log(id);
+      console.log(userPhone._j);
+      
+   
     } 
 
    
@@ -77,14 +95,56 @@ export default function EditTimings({route}) {
       
      // navigation.navigate('home');
      
-      console.log(id);
-     //  console.log(fajrSalah,zuhrSalah,asrSalah,maghribSalah,ishaSalah,jummahSalah,fajrIkaamat,zuhrIkaamat,asrIkaamat,maghribIkaamat,ishaIkaamat,jummahikaamat); 
-
-   const updatedData={ fajrSalah,zuhrSalah,asrSalah,maghribSalah,ishaSalah,jummahSalah,fajrIkaamat,zuhrIkaamat,asrIkaamat,maghribIkaamat,ishaIkaamat,jummahikaamat }; 
-   //console.log(updatedData);
+      console.log("this is ",id);
+   
        try{
-     const response=await axios.put(apiLink+`/Mosques/${id}`,{updatedData});
-     if(response.status===200){
+        const updatedData={ fajrSalah,zuhrSalah,asrSalah,maghribSalah,ishaSalah,jummahSalah,fajrIkaamat,zuhrIkaamat,asrIkaamat,maghribIkaamat,ishaIkaamat,jummahikaamat}; 
+   
+    //   const formData = new FormData();
+
+    // formData.append('id', id);
+  
+    // // Timings
+    // formData.append('fajrSalah', fajrSalah);
+    // formData.append('zuhrSalah', zuhrSalah);
+    // formData.append('asrSalah', asrSalah);
+    // formData.append('maghribSalah', maghribSalah);
+    // formData.append('ishaSalah', ishaSalah);
+    // formData.append('jummahSalah', jummahSalah);
+    // formData.append('fajrIkaamat', fajrIkaamat);
+    // formData.append('zuhrIkaamat', zuhrIkaamat);
+    // formData.append('asrIkaamat', asrIkaamat);
+    // formData.append('maghribIkaamat', maghribIkaamat);
+    // formData.append('ishaIkaamat', ishaIkaamat);
+    // formData.append('jummahikaamat', jummahikaamat);
+
+    // // Only append image if a new one is picked
+    // if (selectedImage) {
+    //   formData.append('image', {
+    //     uri: selectedImage.uri,
+    //     name: selectedImage.fileName || 'mosque.jpg',
+    //     type: selectedImage.type || 'image/jpeg',
+    //   });
+    // }
+// console.log("this is updated data",updatedData);
+
+   const userPhone=await AsyncStorage.getItem('phone');
+     const mosqueData={
+      id,
+      mosquename,
+     userPhone,
+     
+      
+      }
+ const response2 = await axios.put(`${apiLink}/updateMosque/${id}`,{ updatedData, mosqueData}
+  // {
+  // headers: {
+  //   'Content-Type': 'multipart/form-data',
+  // },}
+  );
+
+ console.log("this is mosquedata",mosqueData);
+     if(response2.status===200){
        navigation.navigate('home');
        Alert.alert("Data updated");
        //console.log(response.data);
@@ -97,10 +157,70 @@ export default function EditTimings({route}) {
   catch(error){
   console.log(error);
   }
-      
-     
-   
     }
+
+ 
+const requestPermission = async () => {
+  if (Platform.OS === 'android') {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
+        {
+          title: 'Storage Permission Required',
+          message: 'This app needs access to your media to upload images',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      return granted === PermissionsAndroid.RESULTS.GRANTED;
+    } catch (err) {
+      console.warn(err);
+      return false;
+    }
+  }
+  return true; // iOS handles it through Info.plist
+};
+
+
+  const handleImagePick =async () => {
+    const permissionGranted = await requestPermission();
+  if (!permissionGranted) {
+    Alert.alert("Permission denied", "Cannot access media library.");
+    return;
+  }
+
+    launchImageLibrary({ mediaType: 'photo' }, (response) => {
+      if (response.didCancel) {
+        console.log('Image selection cancelled');
+      } else if (response.errorCode) {
+        Alert.alert('Image Picker Error', response.errorMessage);
+      } else {
+        const asset = response.assets[0];
+        setSelectedImage({
+          uri: asset.uri,
+          type: asset.type,
+          fileName: asset.fileName,
+        });
+      }
+    });
+  };
+
+const prayerInputs = [
+  { label: 'FAJR-ADHAAN', value: fajrSalah, onChange: setfajrTime },
+  { label: 'FAJR-IKAAMAT', value: fajrIkaamat, onChange: setfajr },
+  { label: 'ZUHR-ADHAAN', value: zuhrSalah, onChange: setzuhrTime },
+  { label: 'ZUHR-IKAAMAT', value: zuhrIkaamat, onChange: setzuhr },
+  { label: 'ASR-ADHAAN', value: asrSalah, onChange: setasrTime },
+  { label: 'ASR-IKAAMAT', value: asrIkaamat, onChange: setasr },
+  { label: 'MAGRIB-ADHAAN', value: maghribSalah, onChange: setmagribTime },
+  { label: 'MAGRIB-IKAAMAT', value: maghribIkaamat, onChange: setmagrib },
+  { label: 'ISHA-ADHAAN', value: ishaSalah, onChange: setishaTime },
+  { label: 'ISHA-IKAAMAT', value: ishaIkaamat, onChange: setisha },
+  { label: 'JUMMA-ADHAAN', value: jummahSalah, onChange: setjummahTime },
+  { label: 'JUMMA-IKAAMAT', value: jummahikaamat, onChange: setjummah }
+];
+
 
 
   return (
@@ -112,93 +232,93 @@ export default function EditTimings({route}) {
 
 
 
-    <View style={styles.container}>
-    <Text style={styles.Text}> FAJR-TIME :
-    </Text>
-    <TextInput style={styles.textInput} placeholder="ENTER FAJR-TIME" value={fajrSalah} onChangeText={setfajrTime}/>
+    {/* <View style={styles.container}>
+
+    <TextInput style={styles.textInput} maxLength={5} label=" FAJR-ADHAAN" mode='outlined' value={fajrSalah} onChangeText={setfajrTime}/>
     
     </View>
 
     <View style={styles.container}>
-    <Text style={styles.Text}> FAJR IKAAMAT :
-    </Text>
-    <TextInput style={styles.textInput} placeholder="ENTER FAJR-IKAAMAT" value={fajrIkaamat} onChangeText={setfajr}/>
+
+    <TextInput style={styles.textInput} maxLength={5} label=" FAJR-IKAAMAT" mode='outlined' value={fajrIkaamat} onChangeText={setfajr}/>
 
     </View>
 
     <View style={styles.container}>
-    <Text style={styles.Text}> ZUHR-TIME :
-    </Text>
-    <TextInput style={styles.textInput} placeholder="ENTER ZUHR-TIME" value={zuhrSalah} onChangeText={setzuhrTime} />
+  
+    <TextInput style={styles.textInput} maxLength={5} label=" ZUHR-ADHAAN" mode='outlined' value={zuhrSalah} onChangeText={setzuhrTime} />
 
     </View>
 
     <View style={styles.container}>
-    <Text style={styles.Text}> ZUHR-IKAAMAT :
-    </Text>
-    <TextInput style={styles.textInput} placeholder="ENTER ZUHR-IKAAMAT" value={zuhrIkaamat} onChangeText={setzuhr}/>
+ 
+    <TextInput style={styles.textInput} maxLength={5} label=" ZUHR-IKAAMAT" mode='outlined' value={zuhrIkaamat} onChangeText={setzuhr}/>
 
     </View>
 
     <View style={styles.container}>
-    <Text style={styles.Text}> ASR-TIME :
-    </Text>
-    <TextInput style={styles.textInput} placeholder="ENTER ASR-TIME" value={asrSalah} onChangeText={setasrTime}/>
+  
+    <TextInput style={styles.textInput} maxLength={5} label=" ASR-ADHAAN" mode='outlined' value={asrSalah} onChangeText={setasrTime}/>
 
     </View>
 
     <View style={styles.container}>
-    <Text style={styles.Text}>ASR-IKAAMAT :
-    </Text>
-    <TextInput style={styles.textInput} placeholder="ENTER ASR-IKAAMAT" value={asrIkaamat} onChangeText={setasr}/>
+
+    <TextInput style={styles.textInput} maxLength={5} label=" ASR-IKAAMAT" mode='outlined' value={asrIkaamat} onChangeText={setasr}/>
 
     </View>
 
     <View style={styles.container}>
-    <Text style={styles.Text}> MAGRIB-TIME :
-    </Text>
-    <TextInput style={styles.textInput} placeholder="ENTER MAGRIB-TIME" value={maghribSalah} onChangeText={setmagribTime}/>
+
+    <TextInput style={styles.textInput} maxLength={5} label=" MAGRIB-ADHAAN" mode='outlined' value={maghribSalah} onChangeText={setmagribTime}/>
 
     </View>
 
     <View style={styles.container}>
-    <Text style={styles.Text}> MAGRIB-IKAAMAT :
-    </Text>
-    <TextInput style={styles.textInput} placeholder="ENTER MAGRIB-IKAAMAT" value={maghribIkaamat} onChangeText={setmagrib}/>
-
-    </View>
-
-
-    <View style={styles.container}>
-    <Text style={styles.Text}> ISHA-TIME :
-    </Text>
-    <TextInput style={styles.textInput} placeholder="ENTER ISHA-TIME" value={ishaSalah} onChangeText={setishaTime}/>
-
-    </View>
-
-    <View style={styles.container}>
-    <Text style={styles.Text}> ISHA-IKAAMAT :
-    </Text>
-    <TextInput style={styles.textInput} placeholder="ENTER ISHA-IKAAMAT" value={ishaIkaamat} onChangeText={setisha}/>
-
-    </View>
-
-    <View style={styles.container}>
-    <Text style={styles.Text}> JUMMA-TIME :
-    </Text>
-    <TextInput style={styles.textInput} placeholder="ENTER JUMMA-TIME" value={jummahSalah} onChangeText={setjummahTime}/>
-
-    </View>
-
-    <View style={styles.container}>
-    <Text style={styles.Text}> JUMMA-IKAAMAT :
-    </Text>
-    <TextInput style={styles.textInput} placeholder="ENTER JUMMA-IKAAMAT" value={jummahikaamat} onChangeText={setjummah}/>
-
-    </View>
-
-
    
+    <TextInput style={styles.textInput} maxLength={5} label=" MAGRIB-IKAAMAT" mode='outlined' value={maghribIkaamat} onChangeText={setmagrib}/>
+
+    </View>
+
+
+    <View style={styles.container}>
+   
+    <TextInput style={styles.textInput} maxLength={5} label=" ISHA-ADHAAN" mode='outlined' value={ishaSalah} onChangeText={setishaTime}/>
+
+    </View>
+
+    <View style={styles.container}>
+   
+    <TextInput style={styles.textInput} maxLength={5} label=" ISHA-IKAAMAT" mode='outlined' value={ishaIkaamat} onChangeText={setisha}/>
+
+    </View>
+
+    <View style={styles.container}>
+   
+    <TextInput style={styles.textInput} label=" JUMMA-ADHAAN" mode='outlined' value={jummahSalah} onChangeText={setjummahTime}/>
+
+    </View>
+
+    <View style={styles.container}>
+    
+    <TextInput style={styles.textInput} maxLength={5} label=" JUMMA-IKAAMAT" mode='outlined' value={jummahikaamat} onChangeText={setjummah}/>
+
+    </View>  */}
+
+{prayerInputs.map((input, index) => (
+      <View style={styles.container} key={index}>
+    <TextInput
+      style={styles.textInput}
+      maxLength={5}
+      label={input.label}
+      mode="outlined"
+      value={input.value}
+      keyboardType="numeric"
+      onChangeText={(text) => input.onChange(formatTime(text))}
+    />
+  </View>
+    ))}
+
 
 
 <View style={styles.button}>
@@ -224,14 +344,13 @@ export default function EditTimings({route}) {
 const styles = StyleSheet.create({
     
   contains:{
-   backgroundColor:'yellow',
-   marginVertical:10,
+   backgroundColor:'#f2eece',
    borderColor:'black',
    height:'auto',
-   marginHorizontal:10,
+   marginHorizontal:15,
    padding:10,
-   paddingVertical:15,
-   marginVertical:20
+   paddingVertical:0,
+   marginVertical:40
    
 
   },
@@ -239,11 +358,11 @@ const styles = StyleSheet.create({
     height:60,
     flexDirection:'row',
     justifyContent:'center',
-    backgroundColor: '#ecf0f1',
-    padding:10,
+    // backgroundColor: '#ecf0f1',
+    padding:5,
     borderRadius:10,
     fontWeight:'bold',
-    marginVertical:20 ,
+    marginVertical:13 ,
     alignItems:'center'
     
   },
@@ -253,12 +372,12 @@ const styles = StyleSheet.create({
 
   },
   textInput:{
-    height:50,
-    width:200,
-    marginLeft:10,
-    textAlign:'center',
-    borderRadius:5,
     
+    width:280,
+    height:45,
+    marginLeft:10,
+    textAlign:'left',
+    borderRadius:5
 
   },
   button:{
@@ -271,7 +390,9 @@ const styles = StyleSheet.create({
 },
 TO1:{
   borderRadius:5,
-  padding:10,
+  padding:8,
+  textAlign:'center',
+  alignSelf:'center',
   backgroundColor:'green'
 
 },
@@ -279,7 +400,8 @@ TO2:{
   borderRadius:5,
   borderColor:'black',
   backgroundColor:'red',
-  padding:10
+  alignSelf:'center',
+  padding:8
 
 },
 TOtext:{
@@ -327,6 +449,25 @@ textStyle: {
     fontSize: 18,
     color: 'black',
     fontWeight:'bold'
-  }
+  },
+   containerButton: {
+    height: 60,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 5,
+    borderRadius: 10,
+    marginVertical: 10,
+    alignItems: 'center',
+  },
+   TOtextButton: {
+    color: 'white',
+    fontSize: 18,
+  },
+  editButton: {
+    padding: 10,
+    backgroundColor: 'blue',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
  
 });

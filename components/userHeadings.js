@@ -1,7 +1,7 @@
 import {Image,View,Text, SafeAreaView, StyleSheet } from 'react-native';
 import React,{useEffect,useState} from 'react';
 import Clock from './clock';
-
+import axios from 'axios';
 
 export default function UserHeading() {
 

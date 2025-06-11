@@ -1,8 +1,10 @@
 import React,{useEffect,useState} from "react";
 import {FlatList,View,Text,StyleSheet,ScrollView,SafeAreaView,TouchableOpacity, Alert, Button} from 'react-native';
-//import axios from 'axios';
-import axios,{apiLink, ip} from './axiosConfig';
-
+import axios from 'axios';
+import {apiLink, ip} from './axiosConfig';
+import { useNavigation } from "@react-navigation/native";
+import { ActivityIndicator } from "react-native-paper";
+import { set } from "mongoose";
 /* const DATA = [
     {
      id: '1',
@@ -108,6 +110,8 @@ import axios,{apiLink, ip} from './axiosConfig';
 export default function Admins(){
 
   const [data, setData] = useState([]);
+  const[loading,setLoading]=useState(true);
+  const navigation = useNavigation();
 
   useEffect(() => {
    fetchItems();
@@ -115,10 +119,11 @@ export default function Admins(){
 
    const fetchItems = async () => {
     // await axios.get('http://'+ip+':5000/Admins')
-    await axios.get(apiLink+'/Admins')
+    await axios.get(apiLink+`/Admins`)
     .then(response => {
       setData(response.data);
       console.log(response.data);
+      setLoading(false);
     })
     .catch(error => {
       console.error('Error fetching data: ', error);
@@ -144,19 +149,45 @@ export default function Admins(){
     } 
   
   };
+
+  const RemovePrivilege= (userId) => {
+    handleRoleChange(userId, 'USER');
+  };
     
+  const handleRoleChange = async (userId, newRole) => {
+      try {
+        const response = await axios.put(apiLink+`/Users/${userId}`, { userType: newRole });
+        if (response.status === 200) {
+          Alert.alert('Success', `User role updated to ${newRole}`);
+          // Refresh the user list
+          const updatedUsers = await axios.get(apiLink+`/Users`);
+          setData(updatedUsers.data);
+        } else {
+          Alert.alert('Error', 'Failed to update user role');
+        }
+      } catch (error) {
+        console.error('Error updating user role:', error);
+        Alert.alert('Error', 'An error occurred while updating user role');
+      }
+    };
+
 
   const Item = ({ item }) => (
     <View style={styles.item}>
       <Text style={styles.title}>AdminName: {item.name}</Text>
-      <Text style={styles.title}>Email: {item.email}</Text>
+      {/* <Text style={styles.title}>Email: {item.email}</Text> */}
       <Text style={styles.title}>Phone: {item.phone}</Text>
-     
+     <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+      <TouchableOpacity style={styles.TO1} onPress={()=>{RemovePrivilege(item._id);
+        // navigation.navigate('userList');
+      }}>
+     <Text style={styles.TOtext}>Remove admin</Text>
+  </TouchableOpacity> 
       <TouchableOpacity style={styles.TO1} onPress={()=>RemoveAdmin(item._id)}>
-     <Text style={styles.TOtext}>Remove</Text>
+     <Text style={styles.TOtext}>RemoveData</Text>
 
   </TouchableOpacity> 
-     
+     </View>
     </View>
   );
   
@@ -170,12 +201,20 @@ export default function Admins(){
 <View>
     <Text style={styles.h1}>ADMINS</Text>
     </View>
+    {data.length === 0
+      ? (  <View><Text>No Admins Found</Text></View>) :
+     loading ? (
+     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size={20} color="#0000ff" />
+          <Text >Loading...</Text>
+        </View>
+    ) :(
   <FlatList
     data={data}
-    renderItem={Item}
+    renderItem={(item) => <Item item={item.item} />}
     keyExtractor={item => item._id}
   
-  />
+  />)}
 
 </SafeAreaView>
  

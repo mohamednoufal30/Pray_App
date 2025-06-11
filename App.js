@@ -19,6 +19,8 @@ import Mosques from './components/mosques';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import EditTimings from './components/timingEdit';
+import Forms from './components/Forms';
+import Vagi from './components/vagt';
 // import { NetworkInfo } from 'react-native-network-info';
 
 
@@ -77,9 +79,9 @@ getData();
   return (
 
     <NavigationContainer>
-    <Stack.Navigator initialRouteName="Loginform" screenOptions={{headerShown:false}}>
+    <Stack.Navigator initialRouteName="Forms" screenOptions={{headerShown:false}}>
       <Stack.Screen name="masterAdmin" component={MasterAdmin}/>
-      <Stack.Screen name="Loginform" component={Form}/>
+      {/* <Stack.Screen name="Loginform" component={Form}/> */}
       <Stack.Screen name="Register" component={RegisterForm}/>
       <Stack.Screen name="home" component={Home} />
       <Stack.Screen name="timings" component={Timings}/>
@@ -90,6 +92,8 @@ getData();
       <Stack.Screen name="userList" component={Users}/>  
       <Stack.Screen name="mosqueList" component={Mosques}/> 
       <Stack.Screen name="timingEdit" component={EditTimings}/>
+      <Stack.Screen name="Forms" component={Forms}/>
+      <Stack.Screen name="Vagt" component={Vagi}/>
    
     </Stack.Navigator>
     </NavigationContainer>

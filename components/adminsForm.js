@@ -4,8 +4,8 @@ import React,{useEffect,useState} from 'react';
 // You can import supported modules from npm
 // import { Card } from 'react-native-paper';
 import Clock from '../components/clock';
-//import axios from 'axios';
-import axios,{apiLink, ip} from './axiosConfig';
+import axios from 'axios';
+import {apiLink, ip} from './axiosConfig';
 
 
 

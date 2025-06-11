@@ -5,7 +5,7 @@ import StaticVagi  from '../components/staticVagi';
 import Header  from '../components/header';
 import UserHeading from '../components/userHeadings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import axios from 'axios';
 
 
 

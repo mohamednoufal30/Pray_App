@@ -1,7 +1,8 @@
 import React,{useEffect,useState} from "react";
 import {FlatList,View,Text,StyleSheet,ScrollView,SafeAreaView} from 'react-native';
-//import axios from "axios";
-import axios,{apiLink, ip} from './axiosConfig';
+import axios from "axios";
+import {apiLink, ip} from './axiosConfig';
+import { ActivityIndicator } from "react-native-paper";
 
 
  
@@ -16,23 +17,27 @@ import axios,{apiLink, ip} from './axiosConfig';
 
 export default function Mosques(){
   const [data, setData] = useState([{}]);
+  const[loading,setLoading]=useState(true);
 
   useEffect(() => {
     // axios.get('http://'+ip+':5000/Mosques')
-    axios.get(apiLink+'/Mosques')
+    axios.get(apiLink+`/Mosques`)
       .then(response => {
         setData(response.data);
-        console.log(response.data);
+        // console.log(response.data);
+        setLoading(false);
       })
       .catch(error => {
-        console.error('Error fetching data: ', error);
+        // console.error('Error fetching data: ', error);
       });
   }, []);
 
 
   const Item = ({ item }) => (
     <View style={styles.item}>
-      <Text style={styles.title}>MosqueName: {item.mosqueName}</Text>
+      <Text style={styles.title}>
+        {/* MosqueName:  */}
+        {item.mosqueName}</Text>
       
       
     </View>
@@ -44,12 +49,19 @@ export default function Mosques(){
       <View>
         <Text style={styles.h1}>Mosques</Text>
         </View>
+        {data.length === 0 ? (  <View><Text>No Mosques Found</Text></View>) : loading ?
+         (
+ <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <ActivityIndicator size={20} color="#0000ff" />
+      <Text >Loading...</Text>
+    </View>
+) : (
       <FlatList
         data={data}
-        renderItem={Item}
+        renderItem={({ item }) => <Item item={item} />}
         keyExtractor={item => item._id}
       
-      />
+      />)}
     
       </View>
             
