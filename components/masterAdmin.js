@@ -40,32 +40,12 @@ export default function MasterAdmin({navigation}) {
 
   const validateData=async()=>{
     const token= await AsyncStorage.getItem('token');
-    console.log(token,'token at masterAdmin.js');
+    // console.log(token,'token at masterAdmin.js');
   }
-
-/* const MyComponent =()=>{
-
-
-  console.log(Email);
-  console.log(Password);
-
-
-  if (Email=="masteradmin@gmail.com"&&Password=="admin") {
-    navigation.navigate('masterAdmin');
-  }else if(Email=="admin@gmail.com"&&Password=="admin"){
-    navigation.navigate('home');
-  }
-  else if(Email=="user@gmail.com"&&Password=="user"){
-    navigation.navigate('userForm');
-  }else{
-    Alert.alert('Invalid Credentials');
-  }
-*/
-
 
  
 const handleLogout=()=>{
- console.log('Logout clicked');
+//  console.log('Logout clicked');
  AsyncStorage.removeItem('token');
  navigation.replace('Forms');
  

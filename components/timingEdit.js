@@ -1,7 +1,7 @@
-import { TouchableOpacity,Text, SafeAreaView, StyleSheet,View,Button,ScrollView,TouchableWithoutFeedback,PermissionsAndroid,Platform,Keyboard, Alert, Image } from 'react-native';
+import { TouchableOpacity,Text, SafeAreaView, StyleSheet,View,ScrollView,TouchableWithoutFeedback,PermissionsAndroid,Platform,Keyboard, Alert, Image } from 'react-native';
 import { Link } from '@react-navigation/native'; 
 import React,{useEffect,useState} from 'react';
-import { TextInput } from 'react-native-paper';
+import { TextInput,Button } from 'react-native-paper';
 // You can import supported modules from npm
 import { Card } from 'react-native-paper';
 import Clock from '../components/clock';
@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {apiLink, ip} from './axiosConfig';
 import { launchImageLibrary } from 'react-native-image-picker';
-
+import { RFValue } from 'react-native-responsive-fontsize';
 export default function EditTimings({route}) {
 
   const navigation = useNavigation();
@@ -54,9 +54,9 @@ export default function EditTimings({route}) {
 };
 
    async function getData(){
-      console.log(mosquename);
-      console.log(id);
-      console.log(userPhone._j);
+      // console.log(mosquename);
+      // console.log(id);
+      // console.log(userPhone._j);
       
    
     } 
@@ -78,15 +78,6 @@ export default function EditTimings({route}) {
    getData();
    
 
-  /*  axios.get('http://192.168.109.83:5000/Mosques')
-      .then(response => {
-        setData(response.data);
-        console.log(response.data);
-        
-      })
-      .catch(error => {
-        console.error('Error fetching data: ', error);
-      });   */
  
     
     }, []);
@@ -95,7 +86,7 @@ export default function EditTimings({route}) {
       
      // navigation.navigate('home');
      
-      console.log("this is ",id);
+      // console.log("this is ",id);
    
        try{
         const updatedData={ fajrSalah,zuhrSalah,asrSalah,maghribSalah,ishaSalah,jummahSalah,fajrIkaamat,zuhrIkaamat,asrIkaamat,maghribIkaamat,ishaIkaamat,jummahikaamat}; 
@@ -143,7 +134,7 @@ export default function EditTimings({route}) {
   // },}
   );
 
- console.log("this is mosquedata",mosqueData);
+//  console.log("this is mosquedata",mosqueData);
      if(response2.status===200){
        navigation.navigate('home');
        Alert.alert("Data updated");
@@ -155,7 +146,7 @@ export default function EditTimings({route}) {
      }
     }
   catch(error){
-  console.log(error);
+  Alert.alert(error);
   }
     }
 
@@ -192,7 +183,7 @@ const requestPermission = async () => {
 
     launchImageLibrary({ mediaType: 'photo' }, (response) => {
       if (response.didCancel) {
-        console.log('Image selection cancelled');
+       Alert.alert('Image selection cancelled');
       } else if (response.errorCode) {
         Alert.alert('Image Picker Error', response.errorMessage);
       } else {
@@ -232,84 +223,13 @@ const prayerInputs = [
 
 
 
-    {/* <View style={styles.container}>
-
-    <TextInput style={styles.textInput} maxLength={5} label=" FAJR-ADHAAN" mode='outlined' value={fajrSalah} onChangeText={setfajrTime}/>
-    
-    </View>
-
-    <View style={styles.container}>
-
-    <TextInput style={styles.textInput} maxLength={5} label=" FAJR-IKAAMAT" mode='outlined' value={fajrIkaamat} onChangeText={setfajr}/>
-
-    </View>
-
-    <View style={styles.container}>
-  
-    <TextInput style={styles.textInput} maxLength={5} label=" ZUHR-ADHAAN" mode='outlined' value={zuhrSalah} onChangeText={setzuhrTime} />
-
-    </View>
-
-    <View style={styles.container}>
- 
-    <TextInput style={styles.textInput} maxLength={5} label=" ZUHR-IKAAMAT" mode='outlined' value={zuhrIkaamat} onChangeText={setzuhr}/>
-
-    </View>
-
-    <View style={styles.container}>
-  
-    <TextInput style={styles.textInput} maxLength={5} label=" ASR-ADHAAN" mode='outlined' value={asrSalah} onChangeText={setasrTime}/>
-
-    </View>
-
-    <View style={styles.container}>
-
-    <TextInput style={styles.textInput} maxLength={5} label=" ASR-IKAAMAT" mode='outlined' value={asrIkaamat} onChangeText={setasr}/>
-
-    </View>
-
-    <View style={styles.container}>
-
-    <TextInput style={styles.textInput} maxLength={5} label=" MAGRIB-ADHAAN" mode='outlined' value={maghribSalah} onChangeText={setmagribTime}/>
-
-    </View>
-
-    <View style={styles.container}>
-   
-    <TextInput style={styles.textInput} maxLength={5} label=" MAGRIB-IKAAMAT" mode='outlined' value={maghribIkaamat} onChangeText={setmagrib}/>
-
-    </View>
-
-
-    <View style={styles.container}>
-   
-    <TextInput style={styles.textInput} maxLength={5} label=" ISHA-ADHAAN" mode='outlined' value={ishaSalah} onChangeText={setishaTime}/>
-
-    </View>
-
-    <View style={styles.container}>
-   
-    <TextInput style={styles.textInput} maxLength={5} label=" ISHA-IKAAMAT" mode='outlined' value={ishaIkaamat} onChangeText={setisha}/>
-
-    </View>
-
-    <View style={styles.container}>
-   
-    <TextInput style={styles.textInput} label=" JUMMA-ADHAAN" mode='outlined' value={jummahSalah} onChangeText={setjummahTime}/>
-
-    </View>
-
-    <View style={styles.container}>
-    
-    <TextInput style={styles.textInput} maxLength={5} label=" JUMMA-IKAAMAT" mode='outlined' value={jummahikaamat} onChangeText={setjummah}/>
-
-    </View>  */}
 
 {prayerInputs.map((input, index) => (
       <View style={styles.container} key={index}>
     <TextInput
       style={styles.textInput}
       maxLength={5}
+      activeOutlineColor='black'
       label={input.label}
       mode="outlined"
       value={input.value}
@@ -322,16 +242,16 @@ const prayerInputs = [
 
 
 <View style={styles.button}>
- <TouchableOpacity style={styles.TO1}
-    onPress={()=>handleUpdate(id)}>
-    <Text style={styles.TOtext}>Submit</Text>
 
-  </TouchableOpacity>
- <TouchableOpacity style={styles.TO2}
-    onPress={() => alert('You are Pressed Cancel!')}>
-    <Text style={styles.TOtext}>Cancel</Text>
+  <Button
+             mode="contained"
+             onPress={()=>handleUpdate(id)}
+             style={styles.registerButton}
+             labelStyle={{ fontSize: 15, fontWeight: 'bold',color: 'white' }}
+             >
+           Submit
+            </Button>
 
-  </TouchableOpacity>
 </View>
   
         
@@ -344,14 +264,13 @@ const prayerInputs = [
 const styles = StyleSheet.create({
     
   contains:{
-   backgroundColor:'#f2eece',
-   borderColor:'black',
-   height:'auto',
-   marginHorizontal:15,
-   padding:10,
-   paddingVertical:0,
-   marginVertical:40
-   
+    flex: 1,
+    backgroundColor: '#feada6',
+    borderColor:'black',
+    height:'auto',
+    padding:'auto',
+    borderRadius:0,
+    paddingVertical:10
 
   },
   container: {
@@ -362,11 +281,14 @@ const styles = StyleSheet.create({
     padding:5,
     borderRadius:10,
     fontWeight:'bold',
-    marginVertical:13 ,
+    marginVertical:10 ,
     alignItems:'center'
     
   },
   userRegis:{
+    fontSize: RFValue(30), 
+    fontFamily: 'Roboto',
+    fontWeight: 'bold',
     textAlign:'center',
     fontSize:30
 
@@ -469,5 +391,15 @@ textStyle: {
     borderRadius: 10,
     alignItems: 'center',
   },
+  registerButton: {
+  alignSelf: 'center',
+  marginBottom: 10,
+  marginTop: 10,
+  borderRadius: 10,
+  backgroundColor: '#6e45e2',
+  // width: 120,
+  // height: 50,
+  justifyContent: 'center',
+}
  
 });

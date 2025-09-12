@@ -68,7 +68,7 @@ export default function StaticVagi() {
       }
 
     } catch (err) {
-      console.error("Token validation or data fetch failed:", err);
+     Alert.alert("Token validation or data fetch failed:", err);
       handleLogout();
     }
   };
@@ -76,31 +76,7 @@ export default function StaticVagi() {
   useEffect(() => {
     validateTokenAndFetchData();
 
-    // const removeTokenTimeout = setTimeout(async () => {
-    //   try {
-    //     console.log("Removing token after 30 seconds...");
-    //     await AsyncStorage.removeItem('token');
-    //     navigation.replace('Loginform');
-    //     setIsTokenValid(false);
-    //   } catch (err) {
-    //     console.error('Failed to remove token:', err);
-    //   }
-    // }, 600000);
-
-    // const interval = setInterval(async () => {
-    //   try {
-    //     const token = await AsyncStorage.getItem('token');
-    //     if (!token) {
-    //       setIsTokenValid(false);
-    //       handleLogout();
-    //     } else {
-    //       setIsTokenValid(true);
-    //     }
-    //   } catch (error) {
-    //     console.error('Token check failed:', error);
-    //     handleLogout();
-    //   }
-    // }, 50000);
+   
 
     return () => {
       // clearInterval(interval);
@@ -115,7 +91,7 @@ export default function StaticVagi() {
       });
       setTimings(response.data);
     } catch (error) {
-      console.error('Error fetching mosque timings:', error);
+      Alert.alert('Error fetching mosque timings:', error);
     }
   };
 

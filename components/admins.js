@@ -4,107 +4,6 @@ import axios from 'axios';
 import {apiLink, ip} from './axiosConfig';
 import { useNavigation } from "@react-navigation/native";
 import { ActivityIndicator } from "react-native-paper";
-import { set } from "mongoose";
-/* const DATA = [
-    {
-     id: '1',
-     title: 'First Item',
-     mosquename:'mosque1',
-     username:'name1',
-     email:'admin1@gmail.com',
-     phone:'123456789'
-     
-   },
-   {
-     id: '2',
-     title: 'Second Item',
-     mosquename:'mosque1',
-     username:'name1',
-     email:'admin1@gmail.com',
-     phone:'123456789'
-   },
-   {
-     id: '3',
-     title: 'Third Item',
-     mosquename:'mosque1',
-     username:'name1',
-     email:'admin1@gmail.com',
-     phone:'123456789'
-   },
-   {
-       id: '4',
-       title: 'Fourth Item',
-       mosquename:'mosque1',
-     username:'name1',
-     email:'admin1@gmail.com',
-     phone:'123456789'
-     },
-     {
-       id: '5',
-       title: 'Fifth Item',
-       mosquename:'mosque1',
-     username:'name1',
-     email:'admin1@gmail.com',
-     phone:'123456789'
-     },
-     {
-       id: '6',
-       title: 'Six Item',
-       mosquename:'mosque1',
-     username:'name1',
-     email:'admin1@gmail.com',
-     phone:'123456789'
-      },
-     {
-       id: '7',
-       title: 'Seventh Item',
-       mosquename:'mosque1',
-     username:'name1',
-     email:'admin1@gmail.com',
-     phone:'123456789'
-     },
-     {
-         id: '8',
-         title: 'Eighth Item',
-         mosquename:'mosque1',
-     username:'name1',
-     email:'admin1@gmail.com',
-     phone:'123456789'
-       },
-       {
-         id: '9',
-         title: 'Ninth Item',
-         mosquename:'mosque1',
-     username:'name1',
-     email:'admin1@gmail.com',
-     phone:'123456789'
-       },
-       {
-         id: '10',
-         title: 'Tenth Item',
-         mosquename:'mosque1',
-     username:'name1',
-     email:'admin1@gmail.com',
-     phone:'123456789'
-       }
- ];
- 
- 
- const Item = ({title,username,email,phone,mosquename}) => (
-
-   <View style={styles.item}>
- <Text style={styles.title}>{title}</Text>
-   <Text>{username}</Text>
-   <Text>{email}</Text>
-   <Text>{phone}</Text>
-   <Text>{mosquename}</Text>
-     
-    </View>
-  
- ); */
-
-
-
 
 
 export default function Admins(){
@@ -122,30 +21,30 @@ export default function Admins(){
     await axios.get(apiLink+`/Admins`)
     .then(response => {
       setData(response.data);
-      console.log(response.data);
+      
       setLoading(false);
     })
     .catch(error => {
-      console.error('Error fetching data: ', error);
+      // console.error('Error fetching data: ', error);
     });
     };
 
   const RemoveAdmin=async(id)=>{
    
     try{
-      console.log(id);
+      
       
        const response = await axios.delete(apiLink+`/Admins/${id}`);
 
       if(response.status===200){
         Alert.alert('Success', 'Item deleted successfully');
-      setData(data.filter(item => item._id !== id));
+        setData(data.filter(item => item._id !== id));
       }else{
         Alert.alert("unable to delete");
       }
     }catch(error){
      
-      console.log(error);
+      // console.log(error);
     } 
   
   };
@@ -166,7 +65,7 @@ export default function Admins(){
           Alert.alert('Error', 'Failed to update user role');
         }
       } catch (error) {
-        console.error('Error updating user role:', error);
+        // console.error('Error updating user role:', error);
         Alert.alert('Error', 'An error occurred while updating user role');
       }
     };
@@ -181,7 +80,7 @@ export default function Admins(){
       <TouchableOpacity style={styles.TO1} onPress={()=>{RemovePrivilege(item._id);
         // navigation.navigate('userList');
       }}>
-     <Text style={styles.TOtext}>Remove admin</Text>
+     <Text style={styles.TOtext}>RemoveAdmin</Text>
   </TouchableOpacity> 
       <TouchableOpacity style={styles.TO1} onPress={()=>RemoveAdmin(item._id)}>
      <Text style={styles.TOtext}>RemoveData</Text>
@@ -226,15 +125,17 @@ export default function Admins(){
 
 const styles=StyleSheet.create({
   container:{
-    marginVertical:30,
-    marginHorizontal:10,
+    flex:1,
+    backgroundColor:'#ffffff',
+    // marginVertical:30,
+    // marginHorizontal:10,
     
   },
   TO1:{
     borderRadius:5,
     padding:10,
     backgroundColor:'red',
-    width:80,
+    // width:80,
   
   },
   TOtext:{

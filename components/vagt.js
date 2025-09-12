@@ -425,8 +425,12 @@ import { apiLink, ip } from './axiosConfig';
 import axios from 'axios';
 import Header from './header';
 import { set } from 'mongoose';
-import { ActivityIndicator } from 'react-native-paper';
+import { ActivityIndicator,Button } from 'react-native-paper';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { RFValue } from 'react-native-responsive-fontsize';
+import * as Animatable from 'react-native-animatable';
+import Toast,{BaseToast} from 'react-native-toast-message';
+import { LinearGradient } from 'react-native-linear-gradient';
 
 
 export default function Vagi() {
@@ -441,14 +445,60 @@ export default function Vagi() {
   const[loading,setLoading]=useState(true);
   const [isTokenValid, setIsTokenValid] = useState(true);
 
-  // ⛔ Logout Function
-  const handleLogout = async () => {
-    await AsyncStorage.clear();
-    setIsTokenValid(false);
-    
-    Alert.alert("Thanking you for using Prayer app,Login Again !");
-    navigation.replace('Forms');
+  const width = Dimensions.get('screen').width;
+  const height = Dimensions.get('screen').height;
 
+  const toastConfig = {
+  success: (props) => (
+    <BaseToast
+      {...props}
+      style={{ borderLeftColor: 'green' }}
+      contentContainerStyle={{ paddingHorizontal: 10 }}
+
+      text1Style={{
+        fontSize: RFValue(13),
+        fontWeight: 'bold'
+      }}
+      text2Style={{
+        fontSize: RFValue(12),
+        color: '#555',
+        fontWeight:'bold'
+      }}
+    />
+  ),
+};
+
+  // ⛔ Logout Function
+  const handleLogout = async (name) => {
+
+    
+
+
+  Toast.show({
+    type: 'success',
+    text1: 'Logging out',
+    text2: `Thank you for using Prayer App. Login Again!`,
+    position: 'top',
+
+    visibilityTime: 1600,
+    autoHide: true,
+    fontSize: RFValue(16),
+    topOffset: 50,
+    onHide: async () => {
+      await AsyncStorage.clear();
+      setIsTokenValid(false);
+
+      navigation.replace('Forms');
+    }
+  });
+
+  // setTimeout(async () => {
+  //   await AsyncStorage.clear();
+  //   setIsTokenValid(false);
+  //   navigation.replace('Forms');
+  // }, 1500); // 2 seconds
+
+    // Alert.alert("Thank you for using Prayer app,Login Again !");
   };
 
   // ✅ Validate Token & Fetch User Data
@@ -460,13 +510,8 @@ export default function Vagi() {
       const userPhone = await AsyncStorage.getItem('phone');
       const type=await AsyncStorage.getItem('userType');
       
-      console.log("token is", token);
-      console.log("page Rendered");
-
-      // if (!token || !userPhone) {
-      //   handleLogout();
-      //   return;
-      // }
+      // console.log("token is", token);
+      // console.log("page Rendered");
 
       // Optional: validate token by pinging backend if needed
       const res = await axios.get(apiLink+`/protected`, {
@@ -489,20 +534,20 @@ export default function Vagi() {
       setItems(data);
 
       
-//       console.log("the timings are",timings.mosqueName);
-// console.log("the timings are",timings);
+
       
       // ✅ Use data instead of items here
       if (data.length > 0) {
         setSelectedMosque(data[0].mosqueName);
         handlePicker(data[0].mosqueName);
-        
+        setLoading(false);
         
       }
+     
 
 
     } catch (err) {
-      console.error("Token validation or data fetch failed:", err);
+      Alert.alert("Token validation or data fetch failed:");
       handleLogout();
     }
   };
@@ -519,91 +564,91 @@ export default function Vagi() {
 
       setTimings(res.data);
       setImageUrl(res.data.image);
-      console.log("the timings are",res.data.image);
+      
+      // console.log("the timings are",imageUrl);
 //       console.log("the timings are",timings.mosqueName);
 // console.log("the timings are",timings);
       // console.log("Selected mosque timings:", timings);
       await AsyncStorage.setItem('Timings', JSON.stringify(res.data));
-      // setLoading(false);
+      setLoading(false);
 
     } catch (err) {
-      console.error('Error fetching mosque timings:', err);
+  Alert.alert('Error fetching mosque timings:');
     }
   };
+  
 
   useEffect(() => {
-  
    validateTokenAndFetchData(); // Validate token and fetch data on component mount
-     // Set a timeout to remove the token after 1 minute
-  // const removeTokenTimeout = setTimeout(async () => {
-  //   try {
-  //     console.log("Removing token after 1 minute...");
-  //     await AsyncStorage.removeItem('token');
-  //     navigation.replace('Loginform');
-  //   } catch (err) {
-  //     console.error('Failed to remove token:', err);
-  //   }
-  // }, 600000); // 1 minute
-
-  // Regularly check token every 10 seconds (or any shorter interval)
-  // const interval = setInterval(async () => {
-  //   try {
-  //     const token = await AsyncStorage.getItem('token');
-  //     console.log("Checking token:", token);
-  //     if (!token) {
-  //       setIsTokenValid(false);
-  //       handleLogout(); // Will navigate to LoginForm
-  //     } else {
-  //       setIsTokenValid(true);
-  //     }
-  //   } catch (error) {
-  //     console.error('Token check failed:', error);
-  //     handleLogout();
-  //   }
-  // }, 50000); // Check every 60 seconds
-// console.log("the timings are",timings.mosqueName);
-// console.log("the timings are",timings.imageUrl);
+   
   return () => {
     // clearInterval(interval);
     // clearTimeout(removeTokenTimeout);
+
   };
   }, []);
 
+  
+
   return (
-    // loading ? (
-    //   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    //     <ActivityIndicator size="large" color="#0000ff" />
-    //     <Text style={styles.textHeader}>Loading...</Text>
-    //   </View>
-    // ) : 
+   
     isTokenValid ? (
-     
-       
+
+      loading ? (
+        <ActivityIndicator size="large" color="#0000ff" style={{ marginTop: 20 }} />
+      ) : (
+    //     <LinearGradient
+    //   //  colors={['#ff9a9e', '#fad0c4']}
+    //  colors={['#fdfcfb', '#e2d1c3']}
+    //   style={{ flex: 1 }}
+    // >
         <ScrollView >
+           
         <View>
-        <Header imageUrl={imageUrl} />
+        <Header imageUrl={imageUrl}  />
+        <Toast config={toastConfig} />
         </View>
           <View style={styles.container}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', paddingVertical: 10 }}>
+            <Animatable.View style={{ flexDirection: 'row', justifyContent: 'space-evenly', paddingVertical: 10 }} animation="zoomIn" duration={500}>
             <Text style={styles.textHeader}>WELCOME, {name.toUpperCase()}!</Text>
               {userType === 'ADMIN' && (
-                <TouchableOpacity
-                  style={styles.edit}
-                  onPress={() => navigation.navigate('timingEdit', { timings })}
-                >
-                  <Text style={styles.editText}>Edit</Text>
-                </TouchableOpacity>
+                // <TouchableOpacity
+                //   style={styles.edit}
+                //   onPress={() => navigation.navigate('timingEdit', { timings })}
+                // >
+                //   <Text style={styles.editText}>Edit</Text>
+                // </TouchableOpacity>
+                 <Button
+             mode="contained"
+              onPress={() => navigation.navigate('timingEdit', { timings })}
+             style={styles.registerButton}
+             labelStyle={{ fontSize: RFValue(13) }}
+             >
+             
+             
+            Edit
+            </Button>
               )}
-              <TouchableOpacity style={styles.edit} onPress={handleLogout}>
+              {/* <TouchableOpacity style={styles.edit} onPress={handleLogout}>
                 <Text style={styles.editText}>Logout</Text>
-              </TouchableOpacity>
-            </View>
-  <View style={{ flexDirection: 'row', justifyContent: 'center',alignSelf: 'center'}}>
-            <Text style={{fontSize: 16, height: 30,marginBottom:8,fontWeight:300 }}>
+              </TouchableOpacity> */}
+              <Button
+             mode="contained"
+             onPress={() => handleLogout(name)}
+             style={styles.registerButton}
+             labelStyle={{ fontSize: RFValue(13)}}
+             >
+              
+            Logout
+            </Button>
+            </Animatable.View>
+  <Animatable.View style={{ flexDirection: 'row', justifyContent: 'center',alignSelf: 'center'}} animation="zoomIn" duration={500} delay={200} >
+            <Text style={{fontSize: RFValue(16), height: 30,marginBottom:8,fontWeight:'bold' }}>
                பள்ளிவாசலை தேர்ந்தெடுங்கள்
             </Text>
-  </View>
-            <View style={styles.pickerContainer}>
+  </Animatable.View>
+  
+            <Animatable.View style={styles.pickerContainer} animation="zoomIn" duration={500} >
               <Picker
                 selectedValue={selectedMosque}
                 style={styles.dropdown}
@@ -611,83 +656,111 @@ export default function Vagi() {
               >
                 {/* <Picker.Item label="Select Mosque" value="" /> */}
                 {items.map(item => (
-                  <Picker.Item key={item._id} label={item.mosqueName} value={item.mosqueName} />
+                  <Picker.Item  key={item._id} label={item.mosqueName} value={item.mosqueName} />
                 ))}
               </Picker>
-            </View>
-  
+            </Animatable.View>
+
            
-            {/* <Text style={styles.textHeader}>WELCOME, {name.toUpperCase()}!</Text> */}
-            {renderTimingRow('தொழுகை', 'பாங்கு', 'இகாமத்', require('../assets/prayer.jpg'))}
-            {renderTimingRow('ஃபஜர்', timings.fajrSalah +" AM", timings.fajrIkaamat +" AM", require('../assets/fajr.png'))}
-            {renderTimingRow('லுஹர்', timings.zuhrSalah+" PM", timings.zuhrIkaamat+" PM", require('../assets/zuhr.png'))}
-            {renderTimingRow('அஸர்', timings.asrSalah+" PM", timings.asrIkaamat+" PM", require('../assets/asr.png'))}
-            {renderTimingRow('மக்ரிப்', timings.maghribSalah+" PM", timings.maghribIkaamat+" PM", require('../assets/magrib.png'))}
-            {renderTimingRow('இஷா', timings.ishaSalah+" PM", timings.ishaIkaamat+" PM", require('../assets/isha.png'))}
-            {renderTimingRow('ஜும்மா', timings.jummahSalah+" PM", timings.jummahikaamat+" PM", require('../assets/zuhr.png'))}
-          </View>
+                {renderTimingRow('தொழுகை', 'பாங்கு', 'இகாமத்', require('../assets/prayer.jpg'), true)}
+                {renderTimingRow('ஃபஜர்', timings.fajrSalah + " AM", timings.fajrIkaamat + " AM", require('../assets/fajr.png'), false)}
+    {renderTimingRow('லுஹர்', timings.zuhrSalah + " PM", timings.zuhrIkaamat + " PM", require('../assets/zuhr.png'), false)}
+    {renderTimingRow('அஸர்', timings.asrSalah + " PM", timings.asrIkaamat + " PM", require('../assets/asr.png'), false)}
+    {renderTimingRow('மக்ரிப்', timings.maghribSalah + " PM", timings.maghribIkaamat + " PM", require('../assets/magrib.png'), false)}
+    {renderTimingRow('இஷா', timings.ishaSalah + " PM", timings.ishaIkaamat + " PM", require('../assets/isha.png'), false)}
+    {renderTimingRow('ஜும்மா', timings.jummahSalah + " PM", timings.jummahikaamat + " PM", require('../assets/zuhr.png'), false)}
+
+           
+            </View>
+             
         </ScrollView>
+        //  </LinearGradient>
+       
     
-    ) : (
+    )
+  )
+   : (
       <View style={styles.container}>
         <Text style={styles.textHeader}> Token Expired,Please log in again.</Text>
       </View>
     )
+  
   );
 }
 
-// 🧩 Helper: Render one row
-const renderTimingRow = (name, salah, ikaamat, icon) => (
-  <View style={styles.rowWise}>
+const renderTimingRow = (name, salah, ikaamat, icon,isHeader = false) => (
+  <Animatable.View style={[styles.rowWise, isHeader && {fontWeight: 'bold'}]} animation={isHeader ? "slideInLeft" : "slideInRight"} duration={500} delay={200}>
     <View style={styles.cell}><Image style={styles.img} source={icon} /></View>
-    <View style={styles.cell}><Text style={styles.text}>{name || '--:--'}</Text></View>
-    <View style={styles.cell}><Text style={styles.text}>{salah || '--:--'}</Text></View>
-    <View style={styles.cell}><Text style={styles.text}>{ikaamat || '--:--'}</Text></View>
-  </View>
+    <View style={styles.cell}><Text style={isHeader?styles.headtext:styles.text}>{name ?? '--:--'}</Text></View>
+    <View style={styles.cell}><Text style={isHeader?styles.headtext:styles.text}>{salah  ?? '--:--'}</Text></View>
+    <View style={styles.cell}><Text style={isHeader?styles.headtext:styles.text}>{ikaamat  ?? '--:--'}</Text></View>
+  </Animatable.View>
 );
+
+
 
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
     textAlign: 'center',
     paddingHorizontal: 0,
-    backgroundColor: '#f2eece',
-    width: 'auto'
+   // backgroundColor: '#f2eece',
+    //  backgroundColor: '#ffffff',
+    width: 'auto',
+    flexWrap: 'wrap',
+  
+
   },
-  // rowWise: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   alignItems: 'center',
-  //   // marginTop: 8,
-  //   // paddingVertical: 2,
-  //   width: '100%',
-  //   height: 70,
-  // },
+    rowWise: {
+    flexDirection: 'row',
+    // justifyContent: 'center',
+    paddingVertical: hp('0.2%'),
+   
+    
+  },
+ 
   
-  // cell: {
-  //   flex: 1,
-  //   height: 60,
-  //   fontSize: 18,
-  //   fontWeight: 'bold',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
+  cell: {
+    flex: 1,
+    height: 60,
+    // fontSize: RFValue(13),
+    fontWeight: 'bold',
+    alignItems: 'center',
+    justifyContent: 'center',
+    // backgroundColor:'red'
+  },
   
-  // img: {
-  //   height: 35,
-  //   width: 35,
-  //   resizeMode: 'contain',
-  // },
+  img: {
+    height: 35,
+    width: 35,
+    resizeMode: 'contain',
+    borderRadius: 5,
+   
+  },
   
-  // text: {
-  //   fontSize: 15,
-  //   height: 30,
-  //   fontWeight: 'bold',
-  //   color: '#0d0d0d',
-  //   textTransform: 'uppercase',
-  //   textAlign: 'center',
-  // },
+    headtext: {
+    fontSize: RFValue(13),
+    height: 30,
+    fontWeight: 'bold',
+    color: '#0d0d0d',
+   
+    textAlign: 'center',
+    // backgroundColor: '#f2eece',
+    width: '100%',
+  },
+  text: {
+    fontSize: RFValue(13),
+    height: 30,
+    fontWeight: 'bold',
+    color: '#0d0d0d',
+    textTransform: 'uppercase',
+    textAlign: 'center',
+    width: '100%',
+  //  backgroundColor: '#f2eece',
+  },
   edit: {
     backgroundColor: '#000000',
     borderRadius: wp('2%'),
@@ -704,15 +777,17 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingVertical: hp('2%'),
     fontWeight: 'bold',
-    fontSize: wp('5%'), // approximately 18px on standard screens
+    fontSize: wp('4%'), // approximately 18px on standard screens
     textAlign: 'center',
   },
   dropdown: {
-   height:hp('6%'),
+   height:hp('8%'),
     width: wp('85%'),
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 15,
     
- 
-   
   },
   pickerContainer: {
     borderWidth: 1,
@@ -721,30 +796,18 @@ const styles = StyleSheet.create({
     width: '85%',
     alignSelf: 'center',
   },
+  registerButton: {
+  alignSelf: 'center',
+  marginBottom: 10,
+  marginTop: 10,
+  borderRadius: 10,
 
-   rowWise: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: hp('2%'),
-    paddingHorizontal: wp('2%'),
-    borderBottomWidth: 1,
-    borderColor: '#ccc',
-  },
-  cell: {
-    width: wp('20%'),
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  img: {
-    width: wp('8%'),
-    height: hp('4%'),
-    borderRadius:5
-  },
-  text: {
-    fontSize: wp('3.2%'),
-    height: hp('4%'),
-    fontWeight: 'bold',
-    color: '#333',
-  },
+  backgroundColor: '#6e45e2',
+  // width: 'auto',
+  // height: 50,
+  justifyContent: 'center',
+}
+
+  
 
 });

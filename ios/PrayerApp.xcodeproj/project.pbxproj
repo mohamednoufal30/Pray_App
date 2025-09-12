@@ -14,6 +14,16 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-PrayerApp-PrayerAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-PrayerApp-PrayerAppTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		5ADE2A061103445CB0658110 /* digital-7.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7538600190FD458DA82FAE1D /* digital-7.ttf */; };
+		E0461D8387D747ED9B57339D /* SansitaSwashed-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97DD9A7C318C47D7A74FA125 /* SansitaSwashed-Black.ttf */; };
+		8C2F9D742B6243CCA7EA224E /* SansitaSwashed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 333F5D3CFD684FA5B08409C8 /* SansitaSwashed-Bold.ttf */; };
+		09DCCA93E1A6408ABA254105 /* SansitaSwashed-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C4CF1178000402186C72918 /* SansitaSwashed-ExtraBold.ttf */; };
+		ECC47DD6F3F348EA80842F4B /* SansitaSwashed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 528D2CA935C840569D0DC95A /* SansitaSwashed-Light.ttf */; };
+		BA1FFB9092A841829FC11F28 /* SansitaSwashed-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B2CE7118586F4E868592CEFD /* SansitaSwashed-Medium.ttf */; };
+		D2BF1B1886A24A76B73E065E /* SansitaSwashed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 991CBCCAB8DE40508F3A9473 /* SansitaSwashed-Regular.ttf */; };
+		1867FB8EFD9B4BEE9716AACF /* SansitaSwashed-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6BBD6A5BD2A444F18CA289E1 /* SansitaSwashed-SemiBold.ttf */; };
+		A26EB09E85164687B7F49B6A /* Skranji-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C39CFA9C3F3849ABA2E15FF8 /* Skranji-Bold.ttf */; };
+		C00599FCC0E64C2F8F7FD32E /* Skranji-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B284A25857704C2498B9BF11 /* Skranji-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +55,16 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = PrayerApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-PrayerApp-PrayerAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PrayerApp-PrayerAppTests.release.xcconfig"; path = "Target Support Files/Pods-PrayerApp-PrayerAppTests/Pods-PrayerApp-PrayerAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		7538600190FD458DA82FAE1D /* digital-7.ttf */ = {isa = PBXFileReference; name = "digital-7.ttf"; path = "../assets/fonts/digital-7.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		97DD9A7C318C47D7A74FA125 /* SansitaSwashed-Black.ttf */ = {isa = PBXFileReference; name = "SansitaSwashed-Black.ttf"; path = "../assets/fonts/SansitaSwashed-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		333F5D3CFD684FA5B08409C8 /* SansitaSwashed-Bold.ttf */ = {isa = PBXFileReference; name = "SansitaSwashed-Bold.ttf"; path = "../assets/fonts/SansitaSwashed-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9C4CF1178000402186C72918 /* SansitaSwashed-ExtraBold.ttf */ = {isa = PBXFileReference; name = "SansitaSwashed-ExtraBold.ttf"; path = "../assets/fonts/SansitaSwashed-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		528D2CA935C840569D0DC95A /* SansitaSwashed-Light.ttf */ = {isa = PBXFileReference; name = "SansitaSwashed-Light.ttf"; path = "../assets/fonts/SansitaSwashed-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B2CE7118586F4E868592CEFD /* SansitaSwashed-Medium.ttf */ = {isa = PBXFileReference; name = "SansitaSwashed-Medium.ttf"; path = "../assets/fonts/SansitaSwashed-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		991CBCCAB8DE40508F3A9473 /* SansitaSwashed-Regular.ttf */ = {isa = PBXFileReference; name = "SansitaSwashed-Regular.ttf"; path = "../assets/fonts/SansitaSwashed-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6BBD6A5BD2A444F18CA289E1 /* SansitaSwashed-SemiBold.ttf */ = {isa = PBXFileReference; name = "SansitaSwashed-SemiBold.ttf"; path = "../assets/fonts/SansitaSwashed-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C39CFA9C3F3849ABA2E15FF8 /* Skranji-Bold.ttf */ = {isa = PBXFileReference; name = "Skranji-Bold.ttf"; path = "../assets/fonts/Skranji-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B284A25857704C2498B9BF11 /* Skranji-Regular.ttf */ = {isa = PBXFileReference; name = "Skranji-Regular.ttf"; path = "../assets/fonts/Skranji-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +144,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				72F532777FA748A585812401 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -149,6 +170,24 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		72F532777FA748A585812401 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				7538600190FD458DA82FAE1D /* digital-7.ttf */,
+				97DD9A7C318C47D7A74FA125 /* SansitaSwashed-Black.ttf */,
+				333F5D3CFD684FA5B08409C8 /* SansitaSwashed-Bold.ttf */,
+				9C4CF1178000402186C72918 /* SansitaSwashed-ExtraBold.ttf */,
+				528D2CA935C840569D0DC95A /* SansitaSwashed-Light.ttf */,
+				B2CE7118586F4E868592CEFD /* SansitaSwashed-Medium.ttf */,
+				991CBCCAB8DE40508F3A9473 /* SansitaSwashed-Regular.ttf */,
+				6BBD6A5BD2A444F18CA289E1 /* SansitaSwashed-SemiBold.ttf */,
+				C39CFA9C3F3849ABA2E15FF8 /* Skranji-Bold.ttf */,
+				B284A25857704C2498B9BF11 /* Skranji-Regular.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -245,6 +284,16 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				5ADE2A061103445CB0658110 /* digital-7.ttf in Resources */,
+				E0461D8387D747ED9B57339D /* SansitaSwashed-Black.ttf in Resources */,
+				8C2F9D742B6243CCA7EA224E /* SansitaSwashed-Bold.ttf in Resources */,
+				09DCCA93E1A6408ABA254105 /* SansitaSwashed-ExtraBold.ttf in Resources */,
+				ECC47DD6F3F348EA80842F4B /* SansitaSwashed-Light.ttf in Resources */,
+				BA1FFB9092A841829FC11F28 /* SansitaSwashed-Medium.ttf in Resources */,
+				D2BF1B1886A24A76B73E065E /* SansitaSwashed-Regular.ttf in Resources */,
+				1867FB8EFD9B4BEE9716AACF /* SansitaSwashed-SemiBold.ttf in Resources */,
+				A26EB09E85164687B7F49B6A /* Skranji-Bold.ttf in Resources */,
+				C00599FCC0E64C2F8F7FD32E /* Skranji-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

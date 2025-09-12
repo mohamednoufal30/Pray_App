@@ -42,7 +42,7 @@ export default function AdminsForm() {
     };
     axios.post(apiLink+'/adminRegister',adminData)
     .then(res=>{
-      console.log(res.data)
+      // console.log(res.data)
     if(res.data.status=="ok"){
       Alert.alert("Registration Success");  
     }
@@ -52,7 +52,9 @@ export default function AdminsForm() {
       Alert.alert("Registration Failed");
     }
     })
-.catch(e=>console.log(e)); 
+.catch(
+  // e=>console.log(e)
+); 
   }
 
   return (

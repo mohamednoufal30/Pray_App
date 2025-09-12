@@ -33,7 +33,7 @@ android {
         versionName "1.0"
     }
     signingConfigs {
-        debug {
+        debug { 
             storeFile file('debug.keystore')
             storePassword 'android'
             keyAlias 'androiddebugkey'
@@ -64,3 +64,7 @@ dependencies {
         implementation jscFlavor
     }
 }
+// project.ext.vectoricons = [
+//     iconFontNames: [ 'MaterialCommunityIcons.ttf','FontAwesome.ttf', 'Ionicons.ttf' ] // You can add others too
+// ]
+// apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"

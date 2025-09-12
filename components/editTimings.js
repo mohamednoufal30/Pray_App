@@ -44,26 +44,66 @@ export default function Timings() {
   return cleaned;
 };
   
+// const requestPermission = async () => {
+//   if (Platform.OS === 'android') {
+//     try {
+//       const granted = await PermissionsAndroid.request(
+//         PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES || PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+//         {
+//           title: 'Storage Permission Required',
+//           message: 'This app needs access to your media to upload images',
+//           buttonNeutral: 'Ask Me Later',
+//           buttonNegative: 'Cancel',
+//           buttonPositive: 'OK',
+//         },
+//       );
+//       return granted === PermissionsAndroid.RESULTS.GRANTED;
+//     } catch (err) {
+//       console.warn(err);
+//       return false;
+//     }
+//   }
+//   return true; // iOS handles it through Info.plist
+// };
+
+
 const requestPermission = async () => {
   if (Platform.OS === 'android') {
     try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
-        {
-          title: 'Storage Permission Required',
-          message: 'This app needs access to your media to upload images',
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        },
-      );
-      return granted === PermissionsAndroid.RESULTS.GRANTED;
+      if (Platform.Version >= 33) {
+        // Android 13+
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
+          {
+            title: 'Media Permission',
+            message: 'App needs access to your images',
+            buttonNeutral: 'Ask Me Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'OK',
+          }
+        );
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      } else {
+        // Android 12 or below
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+          {
+            title: 'Storage Permission',
+            message: 'App needs access to your storage',
+            buttonNeutral: 'Ask Me Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'OK',
+          }
+        );
+        return granted === PermissionsAndroid.RESULTS.GRANTED;
+      }
     } catch (err) {
-      console.warn(err);
+      // console.warn('Permission error:', err);
       return false;
     }
   }
-  return true; // iOS handles it through Info.plist
+
+  return true; // iOS
 };
 
   useEffect(() => {
@@ -81,7 +121,7 @@ const requestPermission = async () => {
 
     launchImageLibrary({ mediaType: 'photo' }, (response) => {
       if (response.didCancel) {
-        console.log('Image selection cancelled');
+        Alert.alert('Image selection cancelled');
       } else if (response.errorCode) {
         Alert.alert('Image Picker Error', response.errorMessage);
       } else {
@@ -100,7 +140,7 @@ const requestPermission = async () => {
       // const userType = await AsyncStorage.getItem('userType');
       const email = await AsyncStorage.getItem('email');
 
-      console.log( email);
+      // console.log( email);
 
       const formData = new FormData();
       formData.append('mosqueName', mosqueName);
@@ -134,13 +174,14 @@ const requestPermission = async () => {
       });
 
       if (response.data.status === 'ok') {
+        // console.log("Response Data:", response.data.mosque);
         Alert.alert('Mosque registered successfully');
         navigation.navigate('masterAdmin');
       } else {
         Alert.alert('Registration failed');
       }
     } catch (error) {
-      console.error("Submit Error:", error);
+      // console.error("Submit Error:", error);
       Alert.alert("An error occurred", error.message);
     }
   };
@@ -173,6 +214,7 @@ const requestPermission = async () => {
           label={field.label}
           mode="outlined"
           maxLength={field.length}
+            activeOutlineColor='black'
           keyboardType={field.isTime ? "numeric" : "default"}
           value={field.value}
           onChangeText={(text) =>

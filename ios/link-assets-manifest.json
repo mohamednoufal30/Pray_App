@@ -1,0 +1,45 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/digital-7.ttf",
+      "sha1": "7e1cf55ecbeaaa82465624ffb32b54e85453325c"
+    },
+    {
+      "path": "assets/fonts/SansitaSwashed-Black.ttf",
+      "sha1": "fda49a18b7040de03f9159d2895168f798f4b2f7"
+    },
+    {
+      "path": "assets/fonts/SansitaSwashed-Bold.ttf",
+      "sha1": "8c99b4c7b2bc468ddb1119004acb323bf287ac24"
+    },
+    {
+      "path": "assets/fonts/SansitaSwashed-ExtraBold.ttf",
+      "sha1": "5e4718a08ec16aba5798cdb3856059e8e87ddb3a"
+    },
+    {
+      "path": "assets/fonts/SansitaSwashed-Light.ttf",
+      "sha1": "7b1a6e8974165e47fcfae5f1169e9ef83da8838f"
+    },
+    {
+      "path": "assets/fonts/SansitaSwashed-Medium.ttf",
+      "sha1": "fb3b03bdf85c493e99cfcdf75162d691ebb4f568"
+    },
+    {
+      "path": "assets/fonts/SansitaSwashed-Regular.ttf",
+      "sha1": "82bcae8904859f7044481c9a623f41598e38793c"
+    },
+    {
+      "path": "assets/fonts/SansitaSwashed-SemiBold.ttf",
+      "sha1": "14331c5fd0aaf03d16d0b9dc683887c005f3b799"
+    },
+    {
+      "path": "assets/fonts/Skranji-Bold.ttf",
+      "sha1": "fd5ec6c20a4830ee25ea31a08beb9023848854c3"
+    },
+    {
+      "path": "assets/fonts/Skranji-Regular.ttf",
+      "sha1": "a1590d7b5d58c3383d3bdcf5d1020af4bcc8a7df"
+    }
+  ]
+}

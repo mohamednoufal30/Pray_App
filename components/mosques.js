@@ -74,8 +74,10 @@ export default function Mosques(){
 const styles=StyleSheet.create({
 
   container:{
-    marginVertical:30,
-    marginHorizontal:10,
+    flex:1,
+    backgroundColor:'#ffffff',
+    // marginVertical:30,
+    // marginHorizontal:10,
     
   },
   h1:{
@@ -97,9 +99,10 @@ const styles=StyleSheet.create({
     },
     
     title:{
-      fontSize: 20,
+      fontSize: 18,
       textAlign:'left',
-      paddingVertical:7
+      height:40,
+      padding:5
 
     }
     

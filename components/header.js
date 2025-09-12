@@ -5,6 +5,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { ip,apiLink } from './axiosConfig';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { ActivityIndicator } from 'react-native-paper';
+import * as Animatable from 'react-native-animatable';
+import { FlipInEasyX } from 'react-native-reanimated';
 
 
 
@@ -16,7 +19,7 @@ export default function Header({imageUrl}) {
   const[loading,setLoading]=useState(true);
 
   
-  
+  // console.log('Image URL:', imageUrl);
   
 
   useEffect(() => {
@@ -34,41 +37,54 @@ export default function Header({imageUrl}) {
     setCurrentTime(hours+'-'+minutes+'-'+seconds);
    
   }, []);
+
+
   
   return (
 
     <View>
-      
-{/* <View style={{flexDirection:'row',justifyContent:'space-evenly',textAlign:'center',marginVertical:7}}>
-   
-      <Image style={styles.img} source={require('../assets/allah.jpg')}/>
-      
-     
-      <Text style={styles.text1}>தொழுகை நேரங்கள் </Text>
 
-       <Image style={styles.img} source={require('../assets/muhammed.jpg')}
-/>
-
-
-</View> */}
 <View style={styles.headerRow}>
-  <Image style={styles.img} source={require('../assets/allah.jpg')} />
-  <Text style={styles.text1}>தொழுகை நேரங்கள்</Text>
-  <Image style={styles.img} source={require('../assets/muhammed.jpg')} />
+
+  <Animatable.Image style={styles.img} source={require('../assets/muhammed.jpg')} animation="slideInLeft" />
+  <Animatable.Text style={styles.text1} animation="zoomIn" duration={500}>தொழுகை நேரங்கள்</Animatable.Text>
+  <Animatable.Image style={styles.img} source={require('../assets/allah.jpg')} animation="slideInRight" />
 </View>
 
-    <View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center',marginVertical:5}}>
+    {/* <View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center',marginVertical:5}}>
          <Text style={styles.textStyle}>{currentDate}  /</Text>
      
       <Clock/>
-      </View>
+      </View> */}
 
 <View style={styles.headings}>
-  {/* {imageUrl */}
-      <Image style={styles.img1}  source={{ uri: apiLink+`/uploads/${imageUrl}` }} />
-      
-      
-  {/* } */}
+ 
+    {/* {loading && (
+        <ActivityIndicator
+          size="large"
+          color="#0000ff"
+          style={styles.loadingIndicator}
+        />
+      )} */}
+
+       {imageUrl ? (
+        <Animatable.Image
+          animation="zoomIn"
+          duration={500}
+          style={styles.img1}
+          source={{ uri: imageUrl }}
+          onLoadStart={() => setLoading(true)}
+          onLoadEnd={() => setLoading(false)}
+        />
+      ) : (
+        <View>
+          <Image
+            source={{ uri: 'https://via.placeholder.com/300x200?text=No+Image' }}
+            style={styles.img1}
+          />
+        </View>
+      )}
+
 </View>
 </View>
   );
@@ -80,35 +96,15 @@ const styles = StyleSheet.create({
     paddingHorizontal:5
 
   },
-  // text1:{
-  //   paddingTop:10,
-  //   height:50,
-  //   paddingBottom:10,
-  //   paddingLeft:10,
-  //   paddingRight:10,
-  //   borderRadius:10,
-  //   textAlign:'center',
-  //   alignItems:'center',
-  //   alignSelf:'center',
-  //   backgroundColor:'#ecf0f1',
-  //   fontSize:18,
-  //   fontWeight:'bold'
  
-  //   },
-  //   img:{
-  //     height:60,
-  //     width:60,
-  //     padding:10,
-  //     borderRadius:10
-      
-  //   },
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    marginVertical: hp('1%'),
-    // paddingHorizontal: wp('1%'),
-    height: 'auto',
+    height: hp('10%'), // Adjust height as needed
+    // marginVertical: hp('1%'),
+    
+    // height: 'auto',
   },
   img: {
     width: wp('12%'),
@@ -117,29 +113,23 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   text1: {
-    fontSize: wp('4.7%'), // Adjust as needed
+    fontSize: wp('4.4%'), // Adjust as needed
     fontWeight: 'bold',
     color: '#000',
-    height: hp('3.5%'),
+    height: hp('4.2%'),
     textAlign: 'center',
   },
-    // img1:{
+    img1:{
     
-    //   width: Dimensions.get('screen').width*0.99,  // 90% of screen width
-    //   height: Dimensions.get('screen').height * 0.36, // Maintain aspect ratio (adjust as needed)
-    //   resizeMode: 'cover',       // or 'contain' depending on your need
-    //   borderRadius: 5,
-    //   alignSelf: 'center',
+      width: Dimensions.get('screen').width*0.90,  // 90% of screen width
+      height: Dimensions.get('screen').height * 0.30, // Maintain aspect ratio (adjust as needed)
+      resizeMode: 'cover',       // or 'contain' depending on your need
+      borderRadius: 5,
+      alignSelf: 'center',
       
       
-    // },
-      img1: {
-    width: wp('99%'),            // 99% of screen width
-    height: hp('36%'),           // 36% of screen height
-    resizeMode: 'cover',         // Adjust based on need
-    borderRadius: wp('2%'),      // Scales better than fixed pixels
-    alignSelf: 'center',
-  },
+    },
+
     textStyle: {
       paddingVertical:6,
       textAlign: 'center',
@@ -148,8 +138,11 @@ const styles = StyleSheet.create({
       textTransform: 'uppercase',
       color: 'black',
       fontWeight:'bold'
-    }
-
+    },
+    loadingIndicator: {
+    position: 'absolute',
+    zIndex: 1,
+  }
 
 
 });

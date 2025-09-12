@@ -21,11 +21,11 @@ const navigation = useNavigation();
     axios.get(apiLink+`/Users`)
       .then(response => {
         setData(response.data);
-        console.log(response.data);
+        // console.log(response.data);
         setLoading(false);
       })
       .catch(error => {
-        console.error('Error fetching data: ', error);
+        Alert.alert('Error fetching data: ', error);
       });
   }, []);
 
@@ -45,7 +45,7 @@ const navigation = useNavigation();
       }
     }catch(error){
      
-      console.log(error);
+    Alert.alert("error deleting user");
     } 
   
   };
@@ -62,7 +62,7 @@ const navigation = useNavigation();
         Alert.alert('Error', 'Failed to update user role');
       }
     } catch (error) {
-      console.error('Error updating user role:', error);
+      // console.error('Error updating user role:', error);
       Alert.alert('Error', 'An error occurred while updating user role');
     }
   };
@@ -73,19 +73,7 @@ const navigation = useNavigation();
      
       <Text style={styles.title}>PhoneNo: {item.phone}</Text>
 
-       {/* <Checkbox.Item
-      // label="Admin"
-      style={{width: 200}}
-      icon="account-check"
-      // status={item.userType === 'ADMIN' ? 'checked' : 'unchecked'}
-      onPress={() => {
-        const newRole = item.userType === 'ADMIN' ? 'USER' : 'ADMIN';
-        handleRoleChange(item._id, newRole);
-      }}
-      position="leading"
-      color="#007BFF"
-    /> 
-     */}
+   
    <View style={{flexDirection:'row',justifyContent:'space-between'}}>
    <TouchableOpacity
   style={{backgroundColor: item.userType === 'ADMIN' ? 'green' : 'blue', padding: 10, borderRadius: 5,width: 120}}
@@ -109,9 +97,9 @@ const navigation = useNavigation();
 
         
 <View style={styles.container}>
-  <View>
+  {/* <View> */}
     <Text style={styles.h1}>USERS</Text>
-    </View>
+    {/* </View> */}
     {data.length === 0 ? (
   <View>
     <Text>No Users Found</Text>
@@ -138,21 +126,24 @@ const navigation = useNavigation();
 const styles=StyleSheet.create({
 
   container:{
-    marginVertical:30,
-    marginHorizontal:10,
+    flex:1,
+    backgroundColor:'#ffffff',
+    // marginVertical:20,
+    // marginHorizontal:10,
+  
     
   },
   h1:{
   fontSize:28,
   textAlign:'center',
-  paddingVertical:5,
+  // paddingVertical:5,
   
   },
   TO1:{
     borderRadius:5,
     padding:10,
     backgroundColor:'red',
-    width:80,
+    // width:80,
   
   },
   TOtext:{
@@ -162,8 +153,8 @@ const styles=StyleSheet.create({
     item: {
       backgroundColor: '#ccffcc',
      paddingHorizontal:20,
-     paddingVertical:10,
-      marginVertical: 10,
+     paddingVertical:8,
+      marginVertical: 8,
       marginHorizontal: 10,
       borderRadius:10,
       borderColor:'#000000',

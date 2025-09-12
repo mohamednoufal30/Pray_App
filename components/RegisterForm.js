@@ -1,13 +1,15 @@
-import { TouchableOpacity,Text, SafeAreaView,ScrollView, StyleSheet,View,Button,KeyboardAvoidingView,Dimensions,TouchableWithoutFeedback,Platform,Keyboard, Alert } from 'react-native';
+import { TouchableOpacity,Text, SafeAreaView,ScrollView, StyleSheet,View,KeyboardAvoidingView,Dimensions,TouchableWithoutFeedback,Platform,Keyboard, Alert } from 'react-native';
 import { Link, useNavigation } from '@react-navigation/native'; 
 import React,{useEffect,useState,useRef} from 'react';
-
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 // You can import supported modules from npm
-import { Card ,RadioButton,TextInput} from 'react-native-paper';
+import { Card ,RadioButton,TextInput,Button} from 'react-native-paper';
 import Clock from '../components/clock';
-
+import { RFValue } from 'react-native-responsive-fontsize';
+import * as Animatable from 'react-native-animatable';
 import {apiLink, ip} from './axiosConfig';
+import { ZoomIn } from 'react-native-reanimated';
 
 const width=Dimensions.get('window').width;
 const height=  Dimensions.get('window').height;
@@ -45,14 +47,14 @@ export default function RegisterForm() {
 const navigation=useNavigation();
 
   const handleSubmit=async()=>{
-    console.log(name+' ' +' '+phone+' '+password);
+    // console.log(name+' ' +' '+phone+' '+password);
   
 
    const usersData={
       name,phone,password
     };
 
- console.log(apiLink);
+//  console.log(apiLink);
 
     try {
       if(!name || !phone || !password){
@@ -78,201 +80,79 @@ const navigation=useNavigation();
       }
       
       const res = await axios.post(apiLink+'/usersRegister', usersData);
-      console.log(res.status);
+      // console.log(res.status);
   
       if (res.data.status === "ok") {
         Alert.alert("Registered Successfully");
         navigation.navigate('Forms');
       } else {
-        Alert.alert("Registration failed");
+        Alert.alert("Phone number already exists");
       }
     } catch (e) {
-      console.error("Error submitting data:", e.response?.data || e.message);
+      // console.error("Error submitting data:", e.response?.data || e.message);
       Alert.alert("Error registering user");
     }
 }
 
 
-// const handleChange = (text, index) => {
-//   if (/^\d$/.test(text)) {
-//     const newPin = [...pin];
-//     newPin[index] = text;
-//     setPin(newPin);
-//     if (index < 3) {
-//       inputRefs.current[index + 1].focus();
-//     }
-//   } else if (text === '') {
-//     const newPin = [...pin];
-//     newPin[index] = '';
-//     setPin(newPin);
-//   }
-// };
-
-// const handleKeyPress = (e, index) => {
-//   if (e.nativeEvent.key === 'Backspace' && pin[index] === '' && index > 0) {
-//     inputRefs.current[index - 1].focus();
-//   }
-// };
-
-// const combinedPin = pin.join('');
-
   
   return (
 
     <ScrollView>
-      <View style={styles.contains}>
+      <Animatable.View style={styles.contains} animation="zoomIn" duration={700} delay={50}>
 <Text style={styles.userRegis}> USER REGISTRATION</Text>
 <Text style={styles.textStyle}>  {currentDate} </Text>
 <Clock/>
 
-{/* <View style={styles.RadioButtons}>
-  <View>
-    <Text style={{fontSize:15,fontWeight:'bold',textTransform:'uppercase',textAlign:'center',paddingVertical:20}}>Register As</Text>
-  </View>
-  <View style={{flexDirection:'row',justifyContent:'center'}}>
-  <View style={{flexDirection:'row' }}>
-     <RadioButton  value="option1" 
-                        status={userType === 'MAdmin' ?  
-                                'checked' : 'unchecked'} 
-                        onPress={() => setUserType('MAdmin')} 
-                        color="#007BFF"/>
-    <Text style={{fontSize:18,flexDirection:'row'}}>MAdmin</Text>
-    </View>
-    
-   <View style={{flexDirection:'row' }}>
-     <RadioButton value="option2"
-                        status={userType === 'ADMIN' ?  
-                                'checked' : 'unchecked'} 
-                        onPress={() => setUserType('ADMIN')} 
-                        color="#007BFF"/>
-    <Text style={{fontSize:18,flexDirection:'row'}}>Admin</Text>
-    </View>
-    <View style={{flexDirection:'row' }}>
-     <RadioButton  value="option3"
-                        status={userType === 'USER' ?  
-                                'checked' : 'unchecked'} 
-                        onPress={() => setUserType('USER')} 
-                        color="#007BFF"/>
-    <Text style={{fontSize:18,flexDirection:'row'}}>User</Text>
-    </View>
-    
-    </View>
-    {userType.length<1 && <Text style={{color:'red',fontSize:14,alignSelf:'center',marginTop:5}}>  Select UserType</Text>}
-    
-   
-</View>   */}
-{/* 
-{userType=='MAdmin' ? (
-  
-<View style={styles.container}>
-   
-    <TextInput style={styles.textInput} label=" SecretText" mode='outlined' onChangeText={secretText => setSecretText(secretText)}
-        defaultValue={secretText}/>
 
-    </View>
-):(
-''
-)} */}
     <View style={styles.container}>
    
     <TextInput style={styles.textInput} label="UserName" mode='outlined' maxLength={25} onChangeText={name => setName(name)}
-        defaultValue={name}/>
+        defaultValue={name}   activeOutlineColor='black' left={<TextInput.Icon icon="account" size={25}/>}/>
 
     </View>
-    {name.length<1 && <Text style={{color:'red',fontSize:14,alignSelf:'center',marginTop:5}}>  Enter your name </Text>}
+    {name.length<1 && <Text style={{color:'black',fontSize:14,alignSelf:'center',marginTop:5}}>  Enter your name </Text>}
     
 
 
-    {/* <View style={styles.container}> 
-   
-   <TextInput style={styles.textInput} label="Email" required={true} mode='outlined' onChangeText={email => setEmail(email)}
-        defaultValue={email}/>
-
-    </View>
-    {email.length<1 && <Text style={{color:'red',fontSize:14,alignSelf:'center',marginTop:5}}>  Enter your email </Text>} */}
+    
 
     <View style={styles.container}>
 
     <TextInput style={styles.textInput} keyboardType='number-pad' label="PhoneNumber" mode='outlined' maxLength={10} onChangeText={phone => setPhone(phone)}
-        defaultValue={phone}/>
+        defaultValue={phone}   activeOutlineColor='black' left={<TextInput.Icon icon="phone" size={20}/>} />
 
     </View>
-    {phone.length<1 && <Text style={{color:'red',fontSize:14,alignSelf:'center',marginTop:5}}>  Enter your PhoneNumber </Text>}
+    {phone.length<1 && <Text style={{color:'black',fontSize:14,alignSelf:'center',marginTop:5}}>  Enter your PhoneNumber </Text>}
 
     
 
     <View style={styles.container}>
   
        <TextInput style={styles.textInput} keyboardType='number-pad' label="Set 4-Digit Pin" mode='outlined' secureTextEntry={true} onChangeText={password => setPassword(password)}
-        defaultValue={password} maxLength={4}/>
+        defaultValue={password}   activeOutlineColor='black' maxLength={4}  left={<TextInput.Icon icon="lock" size={20}/>} />
     </View>
-{password.length<1 && <Text style={{color:'red',fontSize:14,alignSelf:'center',marginTop:5}}>  Set 4-Digit Pin </Text>}
+{password.length<1 && <Text style={{color:'black',fontSize:14,alignSelf:'center',marginTop:5}}>  Set 4-Digit Pin </Text>}
 
 
-{/* <View style={styles.conta}>
-      <View style={styles.pinContainer}>
-        {pin.map((digit, index) => (
-          <TextInput
-            key={index}
-            ref={ref => (inputRefs.current[index] = ref)}
-            style={styles.pinInput}
-            keyboardType="numeric"
-            maxLength={1}
-            value={digit}
-            onChangeText={text => handleChange(text, index)}
-            onKeyPress={e => handleKeyPress(e, index)}
-            secureTextEntry={true}
-          />
-        ))}
-      </View>
-      {combinedPin.length < 4 && (
-        <Text style={styles.error}>Enter your 4-digit PIN</Text>
-      )}
-    </View> */}
-
-
-{/* <View style={styles.RadioButtons}>
-  <View>
-    <Text style={{fontSize:20,fontWeight:'bold',textTransform:'uppercase',alignItems:'flex-start'}}>UserType :</Text>
-  </View>
-    
-   <View style={{flexDirection:'row' }}>
-     <RadioButton value="option1"
-                        status={userType === 'ADMIN' ?  
-                                'checked' : 'unchecked'} 
-                        onPress={() => setUserType('ADMIN')} 
-                        color="#007BFF"/>
-    <Text style={{fontSize:25,flexDirection:'row'}}>Admin</Text>
-    </View>
-    <View style={{flexDirection:'row' }}>
-     <RadioButton  value="option2"
-                        status={userType === 'USER' ?  
-                                'checked' : 'unchecked'} 
-                        onPress={() => setUserType('USER')} 
-                        color="#007BFF"/>
-    <Text style={{fontSize:25,flexDirection:'row'}}>User</Text>
-    </View>
-   
-</View>  
- */}
 
 <View style={styles.button}>
- <TouchableOpacity style={styles.TO1}
-    onPress={handleSubmit}>
-    <Text style={styles.TOtext}>Submit</Text>
 
-  </TouchableOpacity>
- {/* <TouchableOpacity style={styles.TO2}
-    onPress={() => alert('You are Pressed Cancel!')}>
-    <Text style={styles.TOtext}>Cancel</Text>
+   <Button
+             mode="contained"
+             onPress={handleSubmit}
+             style={styles.registerButton}
+             labelStyle={{ fontSize: 15, fontWeight: 'bold',color: 'white' }}
+             >
+            Sign Up
+            </Button>
 
-  </TouchableOpacity> */}
 </View>
   
          
 
 
-</View>
+</Animatable.View>
 
 </ScrollView>
     
@@ -284,13 +164,17 @@ const styles = StyleSheet.create({
         flex:1,
           },
   contains:{
-   backgroundColor:'#f2eece',
-   marginVertical:65,
-  //  borderWidth:2,
-   borderRadius:10,
-   marginHorizontal:10,
-   width:'auto',
-   padding:15
+    flex:1,
+  marginVertical: 80,
+    display: 'flex',
+  flexDirection: 'column',
+  backgroundColor: '#feada6',  // Light purple
+  justifyContent: 'center',
+  alignItems: 'center',
+  alignSelf: 'center',
+  borderRadius: 10,
+  paddingHorizontal: 30,
+  paddingVertical: 20, 
 
   },
   container: {
@@ -305,6 +189,10 @@ const styles = StyleSheet.create({
     marginVertical:10 
   },
   userRegis:{
+    fontSize: RFValue(30), 
+    fontFamily: 'Roboto',
+    fontWeight: 'bold',
+    paddingBottom:10,
     textAlign:'center',
     fontSize:25
 
@@ -381,7 +269,7 @@ edit:{
 
 },
 textStyle: {
-  paddingVertical:0,
+  paddingBottom:10,
   textAlign: 'center',
   fontSize: 18,
   color: 'black',
@@ -412,5 +300,15 @@ pinInput: {
 error: {
   color: 'red',
   marginTop: 10,
+},
+registerButton: {
+  alignSelf: 'center',
+  marginBottom: 10,
+  marginTop: 10,
+  borderRadius: 10,
+  backgroundColor: '#6e45e2',
+  // width: 120,
+  // height: 50,
+  justifyContent: 'center',
 }
 });
