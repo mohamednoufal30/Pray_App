@@ -3,13 +3,13 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "preinstall": "npx npm-force-resolutions",
+ 
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest",
-    "postinstall": "npx react-native-clean-project --remove-iOS-build --remove-android-build --remove-node-modules"
+    "test": "jest"
+   
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.21.0",
@@ -34,7 +34,7 @@
     "react-native-image-picker": "^5.0.1",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-paper": "^5.10.1",
-    "react-native-reanimated": "^3.6.2",
+    "react-native-reanimated": "^3.3.0",
     "react-native-responsive-fontsize": "^0.5.1",
     "react-native-responsive-screen": "^1.4.2",
     "react-native-safe-area-context": "^4.5.3",
